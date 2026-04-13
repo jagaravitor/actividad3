@@ -7,28 +7,43 @@
 	export let onQueryChange: (value: string) => void;
 </script>
 
-<section class="hero">
-	<div class="eyebrow">SvelteKit · Rick and Morty</div>
-	<h1>Unincca Arquitectura frontend lista para crecer sin mezclar UI con negocio.</h1>
-	<p>
-		Base feature-first/domain-first con contratos claros entre pantalla, dominio y API.
-	</p>
-</section>
+<div class="main-container">
+	<section class="hero">
+		<div class="eyebrow">Actividad 3 · Desarrollo Frontend</div>
+		
+		<h1>Explorador de personajes: <span>Rick and Morty</span> para la Actividad 3.</h1>
+		
+		<p class="description">
+			Implementación de arquitectura limpia (feature-first) conectando con la API oficial 
+			para la gestión y búsqueda de personajes.
+		</p>
+	</section>
 
-<div class="panel">
-	<CharacterSearch query={data.query} onQueryChange={onQueryChange} />
+	<div class="panel">
+		<CharacterSearch query={data.query} onQueryChange={onQueryChange} />
 
-	<div class="meta">
-		<p>{data.total} personajes</p>
-		{#if data.error}
-			<p class="error">{data.error}</p>
+		<div class="meta">
+			<p class="count">{data.total} personajes encontrados</p>
+			{#if data.error}
+				<p class="error">{data.error}</p>
+			{/if}
+		</div>
+
+		{#if data.characters}
+			<div class="list-wrapper">
+				<CharacterList characters={data.characters} />
+			</div>
 		{/if}
 	</div>
-
-	<CharacterList characters={data.characters} />
 </div>
 
 <style>
+	.main-container {
+		min-height: 100vh;
+		background-color: #f8fafc;
+		font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+	}
+
 	section.hero {
 		max-width: 960px;
 		margin: 0 auto;
@@ -37,50 +52,81 @@
 
 	.eyebrow {
 		display: inline-flex;
-		padding: 0.4rem 0.75rem;
-		border-radius: 999px;
-		background: rgba(78, 205, 196, 0.12);
-		color: #7ef0e3;
-		font-size: 0.8rem;
-		letter-spacing: 0.08em;
+		padding: 0.4rem 0.8rem;
+		border-radius: 6px;
+		background: #1e293b;
+		color: #4ecdc4;
+		font-weight: 700;
+		font-size: 0.7rem;
 		text-transform: uppercase;
+		margin-bottom: 1rem;
+		letter-spacing: 0.05em;
 	}
 
 	h1 {
-		max-width: 14ch;
-		margin: 1rem 0 0.8rem;
-		font-size: clamp(2.4rem, 7vw, 4.8rem);
-		line-height: 0.95;
+		max-width: 20ch;
+		margin: 0.5rem 0 1.5rem;
+		font-size: clamp(2.2rem, 7vw, 4rem);
+		line-height: 1;
+		color: #0f172a;
+		letter-spacing: -0.03em;
 	}
 
-	p {
+	h1 span {
+		background: linear-gradient(120deg, #4ecdc4, #3b82f6);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		display: inline-block;
+	}
+
+	.description {
 		max-width: 60ch;
 		margin: 0;
-		color: rgba(15, 28, 46, 0.65);
-		font-size: 1.03rem;
+		color: #64748b;
+		font-size: 1.1rem;
+		line-height: 1.6;
+		border-left: 4px solid #4ecdc4;
+		padding-left: 1.5rem;
 	}
 
 	.panel {
 		max-width: 960px;
 		margin: 0 auto;
-		padding: 0 1.25rem 3rem;
-		display: grid;
-		gap: 1rem;
+		padding: 2rem 1.25rem 4rem;
 	}
 
 	.meta {
 		display: flex;
 		justify-content: space-between;
-		gap: 1rem;
 		align-items: center;
+		margin-top: 2rem;
+		padding: 1rem 0;
+		border-top: 1px solid #e2e8f0;
 	}
 
-	.meta p {
+	.count {
+		font-size: 0.9rem;
+		font-weight: 600;
+		color: #94a3b8;
 		margin: 0;
-		font-size: 0.95rem;
+	}
+
+	.list-wrapper {
+		margin-top: 1rem;
+	}
+
+	/* Micro-interacción suave para las tarjetas */
+	:global(.character-card) {
+		transition: all 0.25s ease-out !important;
+	}
+	
+	:global(.character-card:hover) {
+		transform: translateY(-5px);
+		filter: brightness(1.05);
 	}
 
 	.error {
-		color: #ffb4b4;
+		color: #ef4444;
+		font-weight: bold;
 	}
 </style>
